@@ -15,10 +15,22 @@ Pod::Spec.new do |s|
   }
   s.swift_version  = '5.9'
   s.source         = { git: 'https://github.com/Mike-Heumes/expo-mapbox-navigation' }
-  s.static_framework = true
+
+  # NOTE: Mapbox Navigation SDK v3 for iOS is distributed only via Swift
+  # Package Manager. We declare it via React Native's spm_dependency helper
+  # (available in react-native >= 0.75). This requires the consuming app to
+  # use dynamic frameworks — set `useFrameworks: 'dynamic'` in
+  # expo-build-properties or the equivalent in the Podfile. Static linkage
+  # is incompatible with the SPM helper, so we cannot set
+  # `s.static_framework = true` here.
 
   s.dependency 'ExpoModulesCore'
-  s.dependency 'MapboxNavigation', '~> 3.10'
+
+  spm_dependency(s,
+    url: 'https://github.com/mapbox/mapbox-navigation-ios.git',
+    requirement: { kind: 'upToNextMajorVersion', minimumVersion: '3.10.0' },
+    products: ['MapboxNavigationCore']
+  )
 
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
