@@ -5,16 +5,24 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "expo-module build",
-    "clean": "expo-module clean",
+    "build": "expo-module build && expo-module build plugin",
+    "clean": "expo-module clean && expo-module clean plugin",
     "lint": "expo-module lint",
-    "test": "expo-module test",
-    "prepare": "expo-module prepare",
+    "test": "expo-module test && jest --config plugin/jest.config.js",
+    "prepare": "expo-module prepare && expo-module prepare plugin",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
     "open:android": "open -a \"Android Studio\" example/android"
   },
+  "files": [
+    "build",
+    "plugin/build",
+    "app.plugin.js",
+    "ios",
+    "android",
+    "expo-module.config.json"
+  ],
   "keywords": [
     "react-native",
     "expo",
@@ -28,11 +36,13 @@
   "author": "Mike Mestebeld <mike@heumes.nl> (https://github.com/Mike-Heumes)",
   "license": "MIT",
   "homepage": "https://github.com/Mike-Heumes/expo-mapbox-navigation#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@expo/config-plugins": "^10.1.2"
+  },
   "devDependencies": {
     "@types/react": "~19.1.1",
-    "expo-module-scripts": "^55.0.2",
     "expo": "^55.0.14",
+    "expo-module-scripts": "^55.0.2",
     "react-native": "0.82.1"
   },
   "peerDependencies": {
