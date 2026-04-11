@@ -1,0 +1,18 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "name": "@heumes-it/expo-mapbox-navigation",
+  "readme": "README.md",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "githubPages": true,
+  "navigationLinks": {
+    "GitHub": "https://github.com/Heumes-IT/expo-mapbox-navigation",
+    "npm": "https://www.npmjs.com/package/expo-mapbox-navigation"
+  },
+  "plugin": [],
+  "tsconfig": "tsconfig.json"
+}

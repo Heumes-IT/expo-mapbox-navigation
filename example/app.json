@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "expo-mapbox-navigation-example",
+    "slug": "expo-mapbox-navigation-example",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "expo.modules.mapboxnavigation.example",
+      "appleTeamId": "4GC7WR8U9A"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "expo.modules.mapboxnavigation.example"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "@heumes-it/expo-mapbox-navigation",
+        {
+          "locationWhenInUseDescription": "We use your location to navigate.",
+          "locationAlwaysDescription": "We use your location in the background to continue turn-by-turn guidance when the app is not in the foreground.",
+          "enableBackgroundLocation": true
+        }
+      ]
+    ]
+  }
+}
