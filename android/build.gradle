@@ -1,18 +1,46 @@
 plugins {
   id 'com.android.library'
   id 'expo-module-gradle-plugin'
+  id 'org.jetbrains.kotlin.android'
 }
 
 group = 'expo.modules.mapboxnavigation'
 version = '0.1.0'
 
+def mapboxDownloadsToken = project.findProperty('MAPBOX_DOWNLOADS_TOKEN') ?: System.getenv('MAPBOX_DOWNLOADS_TOKEN') ?: ''
+
+repositories {
+  maven {
+    url 'https://api.mapbox.com/downloads/v2/releases/maven'
+    authentication {
+      basic(BasicAuthentication)
+    }
+    credentials {
+      username = 'mapbox'
+      password = mapboxDownloadsToken
+    }
+  }
+}
+
 android {
-  namespace "expo.modules.mapboxnavigation"
+  namespace 'expo.modules.mapboxnavigation'
   defaultConfig {
     versionCode 1
-    versionName "0.1.0"
+    versionName '0.1.0'
+    minSdkVersion 24
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+  kotlinOptions {
+    jvmTarget = '17'
   }
   lintOptions {
     abortOnError false
   }
+}
+
+dependencies {
+  implementation 'com.mapbox.navigationcore:navigation:3.18.0'
 }
