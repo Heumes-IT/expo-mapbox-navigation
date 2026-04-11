@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["ExpoMapboxNavigationModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.mapboxnavigation.ExpoMapboxNavigationModule"]
+  }
+}
