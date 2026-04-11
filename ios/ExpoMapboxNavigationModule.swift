@@ -1,48 +1,35 @@
 import ExpoModulesCore
+import MapboxNavigationCore
 
+/**
+ * Expo Modules wrapper around Mapbox Navigation SDK v3 for iOS.
+ *
+ * This skeleton stores a public access token and constructs a
+ * `MapboxNavigationProvider` on first access. The provider is not
+ * used for routing yet — Plan #4 wires up the real routing, session,
+ * and event pipeline on top of this.
+ *
+ * The iOS Mapbox SDK reads `MBXAccessToken` from Info.plist at init
+ * time; the runtime token propagation API differs enough between iOS
+ * and Android that we defer the actual token-to-provider plumbing to
+ * Plan #4 when we need it for real requests. For now, storing the
+ * token locally + constructing the provider once is enough to prove
+ * the SDK linked correctly.
+ */
 public class ExpoMapboxNavigationModule: Module {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
+  private var accessToken: String?
+  private lazy var provider: MapboxNavigationProvider = MapboxNavigationProvider(
+    coreConfig: CoreConfig()
+  )
+
   public func definition() -> ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('ExpoMapboxNavigation')` in JavaScript.
     Name("ExpoMapboxNavigation")
 
-    // Defines constant property on the module.
-    Constant("PI") {
-      Double.pi
-    }
-
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
-
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      return "Hello world! 👋"
-    }
-
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { (value: String) in
-      // Send an event to JavaScript.
-      self.sendEvent("onChange", [
-        "value": value
-      ])
-    }
-
-    // Enables the module to be used as a native view. Definition components that are accepted as part of the
-    // view definition: Prop, Events.
-    View(ExpoMapboxNavigationView.self) {
-      // Defines a setter for the `url` prop.
-      Prop("url") { (view: ExpoMapboxNavigationView, url: URL) in
-        if view.webView.url != url {
-          view.webView.load(URLRequest(url: url))
-        }
-      }
-
-      Events("onLoad")
+    Function("setAccessToken") { (token: String) in
+      self.accessToken = token
+      // Touch `provider` so the lazy init runs; this is how we verify
+      // at runtime that MapboxNavigationCore linked successfully.
+      _ = self.provider
     }
   }
 }
