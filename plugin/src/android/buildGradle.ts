@@ -17,6 +17,10 @@ export function applyMapboxProjectBuildGradle(contents: string): string {
     return contents;
   }
 
+  // Assumes `allprojects { repositories {` appears as a single contiguous run
+  // of whitespace (no comments or statements between the braces). This matches
+  // Expo's default template; hand-edited gradles with comments between the
+  // braces will hit the error below.
   const allProjectsRegex = /allprojects\s*\{\s*repositories\s*\{/;
   if (!allProjectsRegex.test(contents)) {
     throw new Error(

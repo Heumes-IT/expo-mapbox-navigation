@@ -42,4 +42,22 @@ describe('withMapboxNavigation (end-to-end)', () => {
       })
     ).not.toThrow();
   });
+
+  it('is idempotent when applied twice to the same config (run-once guard)', () => {
+    const props = {
+      accessToken: 'pk.eyJtest',
+      locationWhenInUseDescription: 'We use your location to navigate.',
+      locationAlwaysDescription: 'Continues guidance in the background.',
+      enableBackgroundLocation: true,
+    };
+    const first = withMapboxNavigation(minimalExpoConfig(), props);
+    const modCountAfterFirst = Object.keys(first.mods?.ios ?? {}).length +
+      Object.keys(first.mods?.android ?? {}).length;
+
+    const second = withMapboxNavigation(first, props);
+    const modCountAfterSecond = Object.keys(second.mods?.ios ?? {}).length +
+      Object.keys(second.mods?.android ?? {}).length;
+
+    expect(modCountAfterSecond).toBe(modCountAfterFirst);
+  });
 });

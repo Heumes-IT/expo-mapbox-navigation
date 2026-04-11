@@ -3,7 +3,10 @@ import { withMapboxIos } from './withMapboxIos';
 import { withMapboxAndroid } from './withMapboxAndroid';
 import type { MapboxNavigationPluginProps } from './types';
 
-const pkg = { name: 'expo-mapbox-navigation', version: '0.1.0' };
+// Using require so this file does not need `resolveJsonModule` in tsconfig,
+// which `expo-module-scripts/tsconfig.plugin` may or may not enable.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pkg: { name: string; version: string } = require('../../package.json');
 
 function validateProps(props: MapboxNavigationPluginProps): void {
   if (!props.locationWhenInUseDescription) {

@@ -36,13 +36,21 @@ export function applyMapboxManifest(
   doc: ManifestDoc,
   props: MapboxNavigationPluginProps
 ): ManifestDoc {
+  if (!doc.manifest.application || doc.manifest.application.length === 0) {
+    throw new Error(
+      '[expo-mapbox-navigation] AndroidManifest.xml has no <application> element. ' +
+        'This plugin cannot patch a malformed manifest.'
+    );
+  }
+
   const next: ManifestDoc = {
     manifest: {
       ...doc.manifest,
       'uses-permission': [...(doc.manifest['uses-permission'] ?? [])],
-      application: doc.manifest.application
-        ? doc.manifest.application.map((a) => ({ ...a, service: [...(a.service ?? [])] }))
-        : [{ service: [] }],
+      application: doc.manifest.application.map((a) => ({
+        ...a,
+        service: [...(a.service ?? [])],
+      })),
     },
   };
 
