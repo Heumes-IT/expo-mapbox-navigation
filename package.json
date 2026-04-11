@@ -8,7 +8,7 @@
     "build": "expo-module build && expo-module build plugin",
     "clean": "expo-module clean && expo-module clean plugin",
     "lint": "expo-module lint",
-    "test": "expo-module test",
+    "test": "expo-module test && jest --config plugin/jest.config.js",
     "prepare": "expo-module prepare && expo-module prepare plugin",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
