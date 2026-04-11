@@ -1,50 +1,37 @@
 package expo.modules.mapboxnavigation
 
+import com.mapbox.common.MapboxOptions
+import com.mapbox.navigation.base.options.NavigationOptions
+import com.mapbox.navigation.core.MapboxNavigation
+import com.mapbox.navigation.core.MapboxNavigationProvider
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import java.net.URL
 
+/**
+ * Expo Modules wrapper around Mapbox Navigation SDK v3 for Android.
+ *
+ * Skeleton: exposes a single `setAccessToken` function and lazily
+ * constructs a `MapboxNavigation` instance to prove the SDK linked
+ * correctly. Routing, events, voice, and the map view are added in
+ * later plans.
+ */
 class ExpoMapboxNavigationModule : Module() {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
+  private var navigation: MapboxNavigation? = null
+
   override fun definition() = ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('ExpoMapboxNavigation')` in JavaScript.
     Name("ExpoMapboxNavigation")
 
-    // Defines constant property on the module.
-    Constant("PI") {
-      Math.PI
-    }
-
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
-
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      "Hello world! 👋"
-    }
-
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { value: String ->
-      // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
-    }
-
-    // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // the view definition: Prop, Events.
-    View(ExpoMapboxNavigationView::class) {
-      // Defines a setter for the `url` prop.
-      Prop("url") { view: ExpoMapboxNavigationView, url: URL ->
-        view.webView.loadUrl(url.toString())
+    Function("setAccessToken") { token: String ->
+      MapboxOptions.accessToken = token
+      val context = appContext.reactContext
+        ?: throw IllegalStateException(
+          "ExpoMapboxNavigation: reactContext is null; setAccessToken must be called after the module is initialized."
+        )
+      if (navigation == null) {
+        navigation = MapboxNavigationProvider.create(
+          NavigationOptions.Builder(context).build()
+        )
       }
-      // Defines an event that the view can send to JavaScript.
-      Events("onLoad")
     }
   }
 }
