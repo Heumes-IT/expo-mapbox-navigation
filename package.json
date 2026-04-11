@@ -43,7 +43,7 @@
     "@types/react": "~19.1.1",
     "expo": "^55.0.14",
     "expo-module-scripts": "^55.0.2",
-    "react-native": "0.82.1"
+    "react-native": "0.83.0"
   },
   "peerDependencies": {
     "expo": "*",
