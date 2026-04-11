@@ -61,5 +61,28 @@ export function applyMapboxManifest(
     for (const perm of BACKGROUND_PERMISSIONS) addPermission(perm);
   }
 
+  if (props.enableBackgroundLocation) {
+    const application = next.manifest.application?.[0];
+    if (application) {
+      const services = application.service ?? [];
+      const exists = services.some(
+        (s) =>
+          s.$?.['android:name'] ===
+          'com.mapbox.navigation.core.trip.service.NavigationNotificationService'
+      );
+      if (!exists) {
+        services.push({
+          $: {
+            'android:name':
+              'com.mapbox.navigation.core.trip.service.NavigationNotificationService',
+            'android:foregroundServiceType': 'location',
+            'android:exported': 'false',
+          },
+        });
+      }
+      application.service = services;
+    }
+  }
+
   return next;
 }
