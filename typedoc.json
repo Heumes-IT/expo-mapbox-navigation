@@ -9,10 +9,13 @@
   "excludeExternals": true,
   "includeVersion": true,
   "githubPages": true,
+  "sort": ["kind", "alphabetical"],
+  "lightHighlightTheme": "github-light",
+  "darkHighlightTheme": "github-dark",
+  "exclude": ["**/MapboxNavigationNative*"],
   "navigationLinks": {
     "GitHub": "https://github.com/Heumes-IT/expo-mapbox-navigation",
-    "npm": "https://www.npmjs.com/package/expo-mapbox-navigation"
+    "npm": "https://www.npmjs.com/package/@heumes-it/expo-mapbox-navigation"
   },
-  "plugin": [],
   "tsconfig": "tsconfig.json"
 }
