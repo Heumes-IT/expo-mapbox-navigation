@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
     environment: npm
     permissions:
@@ -23,12 +23,15 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+      - run: npm run lint
       - run: npm test
 
       - name: Publish to npm
         run: |
           TAG=$(echo "${{ github.ref_name }}" | grep -q 'beta\|alpha\|rc' && echo "beta" || echo "latest")
           npm publish --tag $TAG --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: GitHub Release
         uses: softprops/action-gh-release@v2

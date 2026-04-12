@@ -1,6 +1,6 @@
 {
   "name": "@heumes-it/expo-mapbox-navigation",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "Turn-by-turn navigation for React Native / Expo powered by Mapbox Navigation SDK v3. Full-featured: routing, active guidance, voice instructions, map view with route line + puck, lane guidance, speed limits, and more.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
