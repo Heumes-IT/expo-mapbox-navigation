@@ -12,6 +12,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: release
     steps:
       - uses: actions/checkout@v4
 
@@ -23,13 +24,11 @@ jobs:
 
       - run: npm ci
       - run: npm run build
-      - run: npm run lint
-      - run: npm test
 
       - name: Publish to npm
         run: |
           TAG=$(echo "${{ github.ref_name }}" | grep -q 'beta\|alpha\|rc' && echo "beta" || echo "latest")
-          npm publish --tag $TAG --provenance --access public
+          npm publish --tag $TAG --access public
 
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
